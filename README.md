@@ -1,93 +1,137 @@
-# Agent Skills
+# NVIDIA Agent Skills
 
+**Official, NVIDIA-verified skills for AI coding agents.**
 
+[![NVIDIA](https://img.shields.io/badge/NVIDIA-Verified-76B900?style=flat&logo=nvidia&logoColor=white)](https://nvidia.com)
+[![Agent Skills Spec](https://img.shields.io/badge/Agent%20Skills-Specification-blue)](https://agentskills.io)
+[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 
-## Getting started
+---
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Skills are portable instruction sets that teach AI agents how to perform specialized tasks — from generating NVIDIA-branded presentations to orchestrating GPU workflows. Every skill in this repository is **published and verified by NVIDIA**.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+This repository follows the open [Agent Skills specification](https://agentskills.io/specification), making skills compatible with Claude Code and other agents that support the standard.
 
-## Add your files
+---
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+## Getting Started
+
+### Install a skill in Claude Code
+
+```bash
+# Browse available NVIDIA skills
+/plugin marketplace add nvidia/agent-skills
+
+# Install a specific skill
+/plugin install <skill-name>@nvidia-agent-skills
+```
+
+### Use a skill
+
+Once installed, skills activate automatically when relevant — or invoke them directly:
 
 ```
-cd existing_repo
-git remote add origin https://gitlab-master.nvidia.com/moshea/agent-skills.git
-git branch -M main
-git push -uf origin main
+/<skill-name>
 ```
 
-## Integrate with your tools
+---
 
-- [ ] [Set up project integrations](https://gitlab-master.nvidia.com/moshea/agent-skills/-/settings/integrations)
+## Available Skills
 
-## Collaborate with your team
+| Skill | Description | Status |
+|-------|-------------|--------|
+| *Coming soon* | NVIDIA-verified skills will be listed here as they are published. | ✅ Verified |
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+---
 
-## Test and Deploy
+## Community
 
-Use the built-in continuous integration in GitLab.
+We take a **GitHub-first approach** to community engagement. GitHub is the primary place to ask questions, report issues, request features, and collaborate with NVIDIA and fellow developers.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### How to Communicate with Us
 
-***
+| Channel | Purpose | Link |
+|---------|---------|------|
+| **GitHub Issues** | Bug reports, feature requests, and questions | [Open an Issue](../../issues) |
+| **GitHub Discussions** | General Q&A, ideas, show & tell, and community conversation | [Join Discussions](../../discussions) |
+| **Pull Requests** | Contribute improvements, fixes, or documentation | [Contributing Guide](CONTRIBUTING.md) |
 
-# Editing this README
+### Why GitHub-First?
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+- **Transparent** — every conversation is public and searchable, so answers help everyone.
+- **Traceable** — issues and PRs link directly to the code changes they produce.
+- **Inclusive** — anyone with a GitHub account can participate, no special access required.
+- **Persistent** — discussions and decisions live alongside the code, not buried in chat history.
 
-## Suggestions for a good README
+> **Note:** For NVIDIA-internal inquiries or partnership-related topics, reach out via your existing NVIDIA contacts. For security vulnerabilities, please follow our [Security Policy](SECURITY.md) and report privately — do not open a public issue.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+---
 
 ## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+We welcome contributions from the community! Whether it's fixing a typo, improving documentation, or proposing a new skill — we'd love to hear from you.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+### Submitting a Skill for NVIDIA Verification
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Community-authored skills can be submitted for NVIDIA review and verification:
+
+1. **Build your skill** following the [Agent Skills specification](https://agentskills.io/specification).
+2. **Test locally** in Claude Code to ensure it works as expected.
+3. **Open a Pull Request** against this repository with your skill in the `community/` directory.
+4. **NVIDIA reviews** for quality, security, and compatibility.
+5. **If approved**, the skill is merged and earns the NVIDIA-verified badge.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for full guidelines.
+
+### What Makes a Good Skill?
+
+- Solves a clear, specific problem
+- Follows the [Agent Skills specification](https://agentskills.io/specification)
+- Includes a well-written `SKILL.md` with accurate name and description
+- Works reliably across environments
+- Does not require proprietary dependencies without clear documentation
+
+---
+
+## Repository Structure
+
+```
+nvidia-agent-skills/
+├── skills/              # NVIDIA-verified skills
+│   ├── skill-name/
+│   │   ├── SKILL.md     # Skill definition (required)
+│   │   ├── scripts/     # Executable scripts (optional)
+│   │   ├── references/  # Reference documents (optional)
+│   │   └── assets/      # Static assets (optional)
+│   └── ...
+├── community/           # Community-submitted skills under review
+├── spec/                # Local copy of the Agent Skills spec
+├── CONTRIBUTING.md      # Contribution guidelines
+├── SECURITY.md          # Security reporting policy
+├── CODE_OF_CONDUCT.md   # Community code of conduct
+└── LICENSE              # Apache 2.0
+```
+
+---
+
+## Standards & Compatibility
+
+This repository adheres to the [Agent Skills specification](https://agentskills.io/specification):
+
+- Skills are portable directories with a `SKILL.md` file at their root.
+- Metadata uses YAML frontmatter with required `name` and `description` fields.
+- Skills follow a progressive disclosure model — lightweight metadata loads at startup, full instructions load on activation.
+- Validate your skill using the [`skills-ref`](https://github.com/agentskills/agentskills/tree/main/skills-ref) reference library.
+
+---
 
 ## License
-For open source projects, say how it is licensed.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+This project is licensed under the [Apache License 2.0](LICENSE) unless otherwise noted in individual skill directories.
+
+---
+
+<p align="center">
+  <strong>Built by NVIDIA. Powered by the community.</strong><br>
+  <a href="../../issues">Report a Bug</a> · <a href="../../discussions">Start a Discussion</a> · <a href="CONTRIBUTING.md">Contribute</a>
+</p>
