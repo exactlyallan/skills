@@ -10,29 +10,29 @@
 
 Skills are portable instruction sets that teach AI agents how to perform specialized tasks — from generating NVIDIA-branded presentations to orchestrating GPU workflows. Every skill in this repository is **published and verified by NVIDIA**.
 
-This repository follows the open [Agent Skills specification](https://agentskills.io/specification), making skills compatible with Claude Code and other agents that support the standard.
+This repository follows the open [Agent Skills specification](https://agentskills.io/specification), making skills compatible with any AI agent or framework that supports the standard.
 
 ---
 
 ## Getting Started
 
-### Install a skill in Claude Code
+### 1. Browse the skills
 
-```bash
-# Browse available NVIDIA skills
-/plugin marketplace add nvidia/agent-skills
+Explore the [`skills/`](skills/) directory to find NVIDIA-verified skills for your use case.
 
-# Install a specific skill
-/plugin install <skill-name>@nvidia-agent-skills
-```
+### 2. Install a skill
 
-### Use a skill
+Each skill is a self-contained directory that can be added to any compatible agent. How you install depends on your agent or framework:
 
-Once installed, skills activate automatically when relevant — or invoke them directly:
+| Agent / Framework | Installation |
+|-------------------|-------------|
+| Claude Code | `/plugin install <skill-name>@nvidia-agent-skills` |
+| Other agents | Copy the skill directory into your agent's skills folder |
+| Manual | Clone this repo and point your agent to the skill path |
 
-```
-/<skill-name>
-```
+### 3. Use a skill
+
+Once installed, skills activate automatically when relevant — or invoke them using your agent's command interface. Refer to your agent's documentation for specifics.
 
 ---
 
@@ -76,7 +76,7 @@ We welcome contributions from the community! Whether it's fixing a typo, improvi
 Community-authored skills can be submitted for NVIDIA review and verification:
 
 1. **Build your skill** following the [Agent Skills specification](https://agentskills.io/specification).
-2. **Test locally** in Claude Code to ensure it works as expected.
+2. **Test locally** with your preferred agent to ensure it works as expected.
 3. **Open a Pull Request** against this repository with your skill in the `community/` directory.
 4. **NVIDIA reviews** for quality, security, and compatibility.
 5. **If approved**, the skill is merged and earns the NVIDIA-verified badge.
@@ -88,7 +88,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for full guidelines.
 - Solves a clear, specific problem
 - Follows the [Agent Skills specification](https://agentskills.io/specification)
 - Includes a well-written `SKILL.md` with accurate name and description
-- Works reliably across environments
+- Works reliably across agents and environments
 - Does not require proprietary dependencies without clear documentation
 
 ---

@@ -26,7 +26,7 @@ All communication happens on GitHub. Please use:
 
 1. Fork the repository.
 2. Create a feature branch: `git checkout -b fix/skill-name-description`
-3. Make your changes and test locally in Claude Code.
+3. Make your changes and test locally with a compatible agent.
 4. Open a Pull Request with a clear description of the change.
 
 ### Submitting a New Skill for NVIDIA Verification
@@ -37,7 +37,7 @@ We accept community-authored skills into the `community/` directory. Once review
 
 - Follow the [Agent Skills specification](https://agentskills.io/specification).
 - Include a `SKILL.md` with valid YAML frontmatter (`name` and `description` are required).
-- Test your skill locally in Claude Code before submitting.
+- Test your skill locally with your preferred agent before submitting.
 - Do not include secrets, credentials, or proprietary dependencies without clear documentation.
 - Keep skills focused — one skill should solve one clear problem.
 
