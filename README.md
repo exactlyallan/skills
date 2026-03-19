@@ -57,7 +57,8 @@ We take a **GitHub-first approach** to community engagement. GitHub is the prima
 
 | Channel | Purpose | Link |
 |---------|---------|------|
-| **GitHub Issues** | Bug reports, feature requests, and questions | [Open an Issue](../../issues) |
+| **GitHub Issues (this repo)** | New skill requests and issues with this repository | [Open an Issue](../../issues) |
+| **GitHub Issues (source repo)** | Bugs or issues with an existing skill — file in the repo where the skill lives (see [Available Skills](#available-skills) for links) | See source repo |
 | **GitHub Discussions** | General Q&A, ideas, show & tell, and community conversation | [Join Discussions](../../discussions) |
 | **Pull Requests** | Contribute improvements, fixes, or documentation | [Contributing Guide](CONTRIBUTING.md) |
 

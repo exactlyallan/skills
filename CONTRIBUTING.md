@@ -16,11 +16,11 @@ All communication happens on GitHub. Please use:
 
 ## How to Contribute
 
-### Reporting Bugs or Requesting Features
+### Where to File Issues
 
-1. Search [existing issues](../../issues) to avoid duplicates.
-2. Open a new issue with a clear title and description.
-3. Include steps to reproduce (for bugs) or a use case (for feature requests).
+- **New skill requests** — [open an issue in this repo](../../issues). Describe the use case, the product or workflow it would cover, and any relevant context.
+- **Bugs or issues with an existing skill** — file the issue in the **source repo** where the skill originates (e.g., [NVIDIA/cuopt](https://github.com/NVIDIA/cuopt) for cuOpt skills, [NVIDIA/TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM) for TensorRT-LLM skills). The maintainers of each product are best positioned to triage and fix skill-specific issues.
+- **Issues with this repository itself** (README, structure, contribution process) — [open an issue here](../../issues).
 
 ### Improving Existing Skills
 
