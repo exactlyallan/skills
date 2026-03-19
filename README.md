@@ -8,7 +8,7 @@
 
 ---
 
-Skills are portable instruction sets that teach AI agents how to perform specialized tasks — from generating NVIDIA-branded presentations to orchestrating GPU workflows. Every skill in this repository is **published and verified by NVIDIA**.
+Skills are portable instruction sets that teach AI agents how to perform specialized tasks — from solving vehicle routing problems with GPU-accelerated cuOpt, to onboarding HuggingFace models into TensorRT-LLM AutoDeploy, to deploying real-time voice agents on Jetson and cloud NIMs. Every skill in this repository is **published and verified by NVIDIA**.
 
 This repository follows the open [Agent Skills specification](https://agentskills.io/specification), making skills compatible with any AI agent or framework that supports the standard.
 
