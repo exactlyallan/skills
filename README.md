@@ -8,19 +8,21 @@
 
 ---
 
-Skills are portable instruction sets that teach AI agents how to perform specialized tasks — from solving vehicle routing problems with GPU-accelerated cuOpt, to onboarding HuggingFace models into TensorRT-LLM AutoDeploy, to deploying real-time voice agents on Jetson and cloud NIMs. Every skill in this repository is **published and verified by NVIDIA**.
+Skills are portable instruction sets that teach AI agents how to perform specialized tasks — from solving vehicle routing problems with GPU-accelerated cuOpt, to onboarding HuggingFace models into TensorRT-LLM AutoDeploy, to deploying real-time voice agents on Jetson and cloud NIMs. Every skill listed here is **published and verified by NVIDIA**.
 
-This repository follows the open [Agent Skills specification](https://agentskills.io/specification), making skills compatible with any AI agent or framework that supports the standard.
+This repository is a **catalog** — skills are maintained in their respective product repos and linked here. It follows the open [Agent Skills specification](https://agentskills.io/specification), making skills compatible with any AI agent or framework that supports the standard.
 
 ---
 
 ## Quickstart
 
-Clone the repo and copy a skill into your agent's skills directory:
+Find a skill in the [Available Skills](#available-skills) table, clone it from the source repo, and copy it into your agent's skills directory:
 
 ```bash
-git clone https://github.com/nvidia/agent-skills.git
-cp -r agent-skills/skills/cuopt-lp-milp-api-python ~/.claude/skills/
+# Example: install the cuOpt LP/MILP skill from the cuOpt repo
+git clone --depth 1 --filter=blob:none --sparse https://github.com/NVIDIA/cuopt.git
+cd cuopt && git sparse-checkout set skills/cuopt-lp-milp-api-python
+cp -r skills/cuopt-lp-milp-api-python ~/.claude/skills/
 ```
 
 That's it — the skill activates automatically the next time your agent encounters a relevant task. For example, ask your agent to "solve a linear programming problem with cuOpt" and the skill guides it through the cuOpt Python API.
@@ -29,24 +31,21 @@ That's it — the skill activates automatically the next time your agent encount
 
 | Agent / Framework | Installation |
 |-------------------|-------------|
-| Claude Code | `/plugin install <skill-name>@nvidia-agent-skills` |
+| Claude Code | Copy the skill directory into `~/.claude/skills/` |
 | Codex | Copy the skill directory into your project's `.codex/skills/` folder |
 | Cursor | Copy the skill directory into your project's `.cursor/skills/` folder |
 | Other agents | Copy the skill directory into your agent's skills folder |
-| Manual | Clone this repo and point your agent to the skill path |
-
-Browse all skills in the [`skills/`](skills/) directory.
 
 ---
 
 ## Available Skills
 
-| Product | Description | Skills | Source |
-|---------|-------------|:------:|--------|
-| **cuOpt** | GPU-accelerated optimization — vehicle routing, linear programming, quadratic programming, installation, server deployment, and developer tools. | 19 | [NVIDIA/cuopt](https://github.com/NVIDIA/cuopt) |
-| **TensorRT-LLM** | LLM inference optimization — model onboarding to AutoDeploy, CI pipeline failure analysis, and test failure diagnostics. | 3 | [NVIDIA/TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM) |
-| **Nemotron Voice Agent** | Real-time conversational AI — deploy speech-to-speech voice agents on Workstation, Jetson Thor, or Cloud NIMs. | 1 | [NVIDIA-AI-Blueprints/nemotron-voice-agent](https://github.com/NVIDIA-AI-Blueprints/nemotron-voice-agent) |
-| **NeMo Gym** | RL training environments — add benchmarks, resources servers, agent wiring, and reward profiling. | 1 | [NVIDIA-NeMo/Gym](https://github.com/NVIDIA-NeMo/Gym) |
+| Product | Description | Skills | Skills Location |
+|---------|-------------|:------:|-----------------|
+| **cuOpt** | GPU-accelerated optimization — vehicle routing, linear programming, quadratic programming, installation, server deployment, and developer tools. | 19 | [`NVIDIA/cuopt/skills/`](https://github.com/NVIDIA/cuopt/tree/main/skills) |
+| **TensorRT-LLM** | LLM inference optimization — model onboarding to AutoDeploy, CI pipeline failure analysis, and test failure diagnostics. | 3 | [`NVIDIA/TensorRT-LLM/.claude/skills/`](https://github.com/NVIDIA/TensorRT-LLM/tree/main/.claude/skills) |
+| **Nemotron Voice Agent** | Real-time conversational AI — deploy speech-to-speech voice agents on Workstation, Jetson Thor, or Cloud NIMs. | 1 | [`nemotron-voice-agent/.agents/skills/`](https://github.com/NVIDIA-AI-Blueprints/nemotron-voice-agent/tree/main/.agents/skills) |
+| **NeMo Gym** | RL training environments — add benchmarks, resources servers, agent wiring, and reward profiling. | 1 | [`NVIDIA-NeMo/Gym/.claude/skills/`](https://github.com/NVIDIA-NeMo/Gym/tree/main/.claude/skills) |
 
 ---
 
@@ -69,20 +68,14 @@ We welcome contributions — new skills, improvements, or documentation fixes. P
 
 ```
 nvidia-agent-skills/
-├── skills/              # NVIDIA-verified skills
-│   ├── skill-name/
-│   │   ├── SKILL.md     # Skill definition (required)
-│   │   ├── scripts/     # Executable scripts (optional)
-│   │   ├── references/  # Reference documents (optional)
-│   │   └── assets/      # Static assets (optional)
-│   └── ...
 ├── community/           # Community-submitted skills under review
-├── spec/                # Local copy of the Agent Skills spec
 ├── CONTRIBUTING.md      # Contribution guidelines
 ├── SECURITY.md          # Security reporting policy
 ├── CODE_OF_CONDUCT.md   # Community code of conduct
 └── LICENSE              # Apache 2.0
 ```
+
+NVIDIA-verified skills live in their respective product repos (see [Available Skills](#available-skills)). This repo serves as the catalog and hosts community-submitted skills.
 
 ---
 

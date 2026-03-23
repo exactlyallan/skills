@@ -13,12 +13,7 @@ git clone https://github.com/nvidia/agent-skills.git
 cd agent-skills
 ```
 
-To test a skill, copy it into your agent's skills directory and try it on a real task:
-
-```bash
-# Example: test the cuOpt LP/MILP skill with Claude Code
-cp -r skills/cuopt-lp-milp-api-python ~/.claude/skills/
-```
+NVIDIA-verified skills live in their respective product repos (see the [Available Skills](README.md#available-skills) table). To test an existing skill, clone it from the source repo and copy it into your agent's skills directory.
 
 To validate a skill's `SKILL.md` structure, use the [`skills-ref`](https://github.com/agentskills/agentskills/tree/main/skills-ref) reference library.
 
