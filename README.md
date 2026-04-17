@@ -3,7 +3,7 @@
 
 # NVIDIA Agent Skills
 
-**Official, NVIDIA-verified skills for AI coding agents.**
+**Official, NVIDIA-verified skills for AI agents.**
 
 [![NVIDIA](https://img.shields.io/badge/NVIDIA-Verified-76B900?style=flat&logo=nvidia&logoColor=white)](https://nvidia.com)
 [![Agent Skills Spec](https://img.shields.io/badge/Agent%20Skills-Specification-blue)](https://agentskills.io)
@@ -11,9 +11,11 @@
 
 ---
 
-Skills are portable instruction sets that teach AI agents how to perform specialized tasks — from solving vehicle routing problems with GPU-accelerated cuOpt, to onboarding HuggingFace models into TensorRT-LLM AutoDeploy, to deploying real-time voice agents on Jetson and cloud NIMs, to launching LLM evaluations with NeMo Evaluator. Every skill listed here is **published and verified by NVIDIA**.
+Skills are portable instruction sets that teach AI agents how to use NVIDIA CUDA-X libraries, AI Blueprints, and platform tools correctly. From solving vehicle routing problems with cuOpt, to deploying RAG pipelines, to onboarding models into TensorRT-LLM, every skill listed here is **published and verified by NVIDIA**.
 
 This repository is a **catalog** — skills are maintained in their respective product repos and linked here. It follows the open [Agent Skills specification](https://agentskills.io/specification), making skills compatible with any AI agent or framework that supports the standard.
+
+We are building this in the open. The catalog, sync pipeline, and roadmap are public so the community can see what we ship, what we plan to ship, and how we secure skills for use. As we add signing, scanning, and evaluation, each improvement lands here incrementally.
 
 ---
 
@@ -76,6 +78,19 @@ For skill-related issues, feature requests, new skill ideas, discussions, and co
 | **RAG Blueprint** | [Issues](https://github.com/NVIDIA-AI-Blueprints/rag/issues) | [Discussions](https://github.com/NVIDIA-AI-Blueprints/rag/discussions) | [Contributing](https://github.com/NVIDIA-AI-Blueprints/rag/blob/main/CONTRIBUTING.md) | [Security](https://github.com/NVIDIA-AI-Blueprints/rag/blob/main/SECURITY.md) |
 
 For issues with **this catalog repo itself** (README, structure, listing a new product): [open an issue here](../../issues).
+
+---
+
+## Roadmap
+
+- ✅ Public skills catalog with NVIDIA-verified skills across multiple products
+- ✅ Automated sync pipeline with skills mirrored from product repos daily
+- ✅ Security scanning for all published skills covering instruction safety and supply-chain integrity
+- 🔲 Skills signing so every published skill carries a verifiable NVIDIA signature
+- 🔲 Skills universal evaluation criteria and task-specific criteria
+- 🔲 Skills Card with machine-readable metadata for identity, provenance, quality, and behavioral boundaries
+- 🔲 Compliance gates before external publication
+- 🔲 Syndication to external marketplaces and MCP hubs
 
 ---
 
