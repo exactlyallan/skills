@@ -72,7 +72,7 @@ components:
       Large-scale distributed training — model parallelism, pipeline
       parallelism, and mixed precision.
     skills:
-      - path: .claude/skills/
+      - path: skills/
         catalog_dir: Megatron-Core
     links:
       security: false
