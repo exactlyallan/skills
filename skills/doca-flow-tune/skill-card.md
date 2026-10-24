@@ -1,5 +1,5 @@
 ## Description: <br>
-Guides agents through invoking doca_flow_tune to snapshot, analyze, visualize, and tune a live or captured doca-flow pipeline on BlueField DPUs or ConnectX NICs. <br>
+Use this skill when the user is tuning a live or captured `doca-flow` pipeline with `doca_flow_tune` — snapshotting pipe / counter / KPI state, picking a tuning axis (rule placement, resource hints / table sizing, HW-offload mode) and a matching measurement, running offline or online modes, reading the dumper CSV / analyze JSON / visualize mermaid, or applying a recommendation back into the Flow program. <br>
 
 This skill is ready for commercial/non-commercial use. <br>
 
@@ -9,7 +9,7 @@ NVIDIA <br>
 ### License/Terms of Use: <br>
 Apache 2.0 AND CC-BY-4.0 <br>
 ## Use Case: <br>
-Developers, performance engineers, and platform operators use this skill to characterize, dump, visualize, analyze, and optimize running doca-flow pipelines on NVIDIA BlueField or ConnectX hardware. <br>
+External operators, performance engineers, DOCA Flow application developers, and AI agents use this skill to characterize, snapshot, analyze, visualize, and tune a running or captured `doca-flow` pipeline on their actual DOCA install and device, and to route tuning recommendations back into the Flow program. <br>
 
 ### Deployment Geography for Use: <br>
 Global <br>
@@ -26,8 +26,8 @@ Mitigation: Review and scan skill before deployment. <br>
 
 ## Reference(s): <br>
 - [DOCA SDK Documentation](https://docs.nvidia.com/doca/sdk/index.html) <br>
-- [DOCA Samples (GitHub)](https://github.com/NVIDIA-DOCA/doca-samples) <br>
-- [DOCA Platform Framework (GitHub)](https://github.com/NVIDIA/doca-platform) <br>
+- [CAPABILITIES.md](CAPABILITIES.md) <br>
+- [TASKS.md](TASKS.md) <br>
 
 
 ## Skill Output: <br>
@@ -37,43 +37,44 @@ Mitigation: Review and scan skill before deployment. <br>
 **Other Properties Related to Output:** [None] <br>
 
 ## Evaluation Agents Used: <br>
-- Claude Code (`aws/anthropic/bedrock-claude-opus-4-8`) <br>
-- Codex (`openai/openai/gpt-5.5`) <br>
+- Claude Code (`aws/anthropic/bedrock-claude-opus-5-5`) <br>
+- Codex (`openai/openai/gpt-6.1-sol`) <br>
 
 
 
 ## Evaluation Tasks: <br>
-Evaluated against 4 evaluation tasks (3 positive skill-activation, 1 negative). <br>
+4 evaluation tasks (3 positive, 1 negative), each attempt run in its own isolated k8s sandbox pod. <br>
 
 ## Evaluation Metrics Used: <br>
 Reported benchmark dimensions: <br>
-- Security: Checks whether skill-assisted execution avoids unsafe behavior such as secret leakage, destructive commands, or unauthorized access. <br>
-- Correctness: Checks whether the agent follows the expected workflow and produces the correct final output. <br>
-- Discoverability: Checks whether the agent loads the skill when relevant and avoids using it when irrelevant. <br>
-- Effectiveness: Checks whether the agent performs measurably better with the skill than without it. <br>
-- Efficiency: Checks whether the agent uses fewer tokens and avoids redundant work. <br>
+- Security: Is it safe to use? Checks unsafe operations, secret leakage, and unauthorized access. <br>
+- Correctness: Is the answer correct? Checks final-answer correctness against the reference answer. <br>
+- Discoverability: Was the right skill loaded when needed, and were decoys avoided? <br>
+- Effectiveness: Did the skill help complete the task? Equal-weight mean of goal completion and expected workflow adherence. <br>
+- Efficiency: Did it avoid wasted tool calls and token usage? Equal-weight mean of tool-call productivity and token efficiency. <br>
 
 Underlying evaluation signals used in this run: <br>
-- `security`: Checks for unsafe operations, secret leakage, and unauthorized access. <br>
-- `skill_execution`: Verifies that the agent loaded the expected skill and workflow. <br>
-- `skill_efficiency`: Checks routing quality, decoy avoidance, and redundant tool usage. <br>
-- `accuracy`: Grades final-answer correctness against the reference answer. <br>
-- `goal_accuracy`: Checks whether the overall user task completed successfully. <br>
-- `behavior_check`: Verifies expected behavior steps, including safety expectations. <br>
+- `security`: Unsafe operations, secret leakage, and unauthorized access. <br>
+- `skill_execution`: Whether the expected skill was selected, decoys were avoided, and the workflow executed. <br>
+- `skill_efficiency`: Tool-call productivity (routing is scored under Discoverability). <br>
+- `accuracy`: Final-answer correctness against the reference answer. <br>
+- `goal_accuracy`: Whether the user's goal was achieved. <br>
+- `behavior_check`: Whether the expected workflow behavior was followed. <br>
 
 
 
 ## Evaluation Results: <br>
-| Dimension | Num | Claude Code (`aws/anthropic/bedrock-claude-opus-4-8`) | Codex (`openai/openai/gpt-5.5`) |
-|---|---:|---:|---:|
-| Security | 4 | 100% (+0%) | 100% (+0%) |
-| Correctness | 4 | 100% (+70%) | 100% (+40%) |
-| Discoverability | 4 | 100% (+38%) | 95% (+34%) |
-| Effectiveness | 4 | 99% (+68%) | 100% (+81%) |
-| Efficiency | 4 | 91% (+51%) | 96% (+58%) |
+| Measure | Claude Code (Baseline → Skill Uplift) | Codex (Baseline → Skill Uplift) |
+|---|---:|---:|
+| Overall | 97.9% — uplift unavailable | 88.2% — uplift unavailable |
+| Security | 100.0% → 100.0% (±0.0 points) | 87.5% → 100.0% (+12.5 points) |
+| Correctness | 45.0% → 100.0% (+55.0 points) | 60.0% → 100.0% (+40.0 points) |
+| Discoverability | 100.0% — uplift unavailable | 95.0% — uplift unavailable |
+| Effectiveness | 53.1% → 96.3% (+43.2 points) | 73.1% → 85.0% (+11.9 points) |
+| Efficiency | 93.3% — uplift unavailable | 60.7% — uplift unavailable |
 
 ## Skill Version(s): <br>
-2790d51 (source: git SHA, committed 2026-07-26) <br>
+2a83c6b (source: git SHA, committed 2026-10-24) <br>
 
 ## Ethical Considerations: <br>
 NVIDIA believes Trustworthy AI is a shared responsibility and we have established policies and practices to enable development for a wide array of AI applications. When downloaded or used in accordance with our terms of service, developers should work with their internal team to ensure this skill meets requirements for the relevant industry and use case and addresses unforeseen product misuse. <br>
