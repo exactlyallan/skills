@@ -17,7 +17,7 @@ taxonomy, observability, and safety / path-selection policy, see
 patterns layered under everything below (the universal lifecycle,
 the cross-library `DOCA_ERROR_*` taxonomy, the
 modify-a-shipped-sample workflow), see
-[`doca-programming-guide`](../../doca-programming-guide/SKILL.md).
+`doca-programming-guide/SKILL.md`.
 
 Each verb below describes the **shape of the workflow**, not a
 copy-paste recipe. The agent's job is to walk the user through
@@ -34,16 +34,16 @@ the per-task max.
 Steps the agent should walk the user through:
 
 1. **Confirm the installed DOCA version.** Use the procedure in
-   [`doca-version TASKS.md ## configure`](../../doca-version/TASKS.md#configure).
+   `doca-version TASKS.md ## configure` (`doca-version/TASKS.md#configure`).
    Quote the version observed (`pkg-config --modversion
    doca-compress`, then `doca_caps --version`); do not assume
    "latest". The four-way match rule lives in
-   [`doca-version CAPABILITIES.md ## Version compatibility`](../../doca-version/CAPABILITIES.md#version-compatibility);
+   `doca-version CAPABILITIES.md ## Version compatibility` (`doca-version/CAPABILITIES.md#version-compatibility`);
    if the observed sources disagree, route there before any
    Compress diagnosis.
 2. **Discover the device capability surface for Compress.** Run
    `doca_caps --list-devs` (per
-   [`doca-caps`](../../tools/doca-caps/SKILL.md)) to see which
+   `doca-caps/SKILL.md`) to see which
    devices are visible, then run the per-`doca_devinfo`
    `doca_compress_cap_*` queries against the candidate device.
    Record the support and maximum-source-size result for every
@@ -97,10 +97,15 @@ Steps the agent should walk the user through:
    `DOCA_ACCESS_FLAG_LOCAL_READ_ONLY`); set destination mmap
    permissions (`DOCA_ACCESS_FLAG_LOCAL_READ_WRITE`); size the
    source buffer to ≤ the matching `_get_max_buf_size` and the
-   destination buffer to the worst-case output size (a compress
-   destination may need to be slightly larger than the source for
-   poorly-compressible inputs; a decompress destination may need
-   to be substantially larger than the compressed source). Per
+   destination buffer to the worst-case output size. Compress:
+   never smaller than the input; DEFLATE stored blocks add 5 bytes
+   per started 64 KiB of input plus a few header bytes, so input
+   length + 5 × ceil(input / 65535) + 16 bytes covers incompressible
+   data. Decompress: the uncompressed length the producer recorded
+   (container header or application metadata); if none was recorded,
+   the largest output the application accepts, and an
+   `DOCA_ERROR_INVALID_VALUE` then means the payload is larger than
+   that limit. Per
    the matrix in
    [`CAPABILITIES.md ## Safety policy`](CAPABILITIES.md#safety-policy).
 6. **Sanity check before any task submission.** Confirm with the
@@ -119,7 +124,7 @@ Steps the agent should walk the user through:
 
 For the canonical DOCA universal lifecycle that underlies steps
 4-6, see
-[`doca-programming-guide TASKS.md ## configure`](../../doca-programming-guide/TASKS.md#configure).
+`doca-programming-guide TASKS.md ## configure` (`doca-programming-guide/TASKS.md#configure`).
 This skill adds the Compress overlay; do not re-explain the
 lifecycle here.
 
@@ -132,14 +137,14 @@ pattern.
 The build pattern for any DOCA C/C++ consumer is **identical**
 across libraries — `pkg-config` for include + link flags, meson
 or CMake as the build system — and is fully documented in
-[`doca-programming-guide TASKS.md ## build`](../../doca-programming-guide/TASKS.md#build).
+`doca-programming-guide TASKS.md ## build` (`doca-programming-guide/TASKS.md#build`).
 This skill carries only the Compress-specific overlay:
 
 | Slot | Value for Compress | Why it matters |
 | --- | --- | --- |
 | `pkg-config` module name | `doca-compress` | The library's `.pc` file installed by the DOCA host packages. Wrong module name = `pkg-config: Package 'doca-compress' was not found` |
 | Required runtime libs | `libdoca-common`, `libdoca-compress`, plus whatever `pkg-config --libs doca-compress` resolves transitively | Compress depends on Core; the link line should not pull in unrelated DOCA libraries |
-| Header check | The public header that `pkg-config --cflags` for this artifact resolves to actually exists on disk at the path pkg-config reports (do not hardcode the include path) | If `pkg-config --cflags doca-compress` resolves but the include is missing, the install is partial — route to [`doca-version TASKS.md ## debug`](../../doca-version/TASKS.md#debug) layer 2 |
+| Header check | The public header that `pkg-config --cflags` for this artifact resolves to actually exists on disk at the path pkg-config reports (do not hardcode the include path) | If `pkg-config --cflags doca-compress` resolves but the include is missing, the install is partial — route to `doca-version TASKS.md ## debug` (`doca-version/TASKS.md#debug`) layer 2 |
 | Minimum required DOCA version | Query with `pkg-config --modversion doca-compress`; never hardcode in build files | Cross-version build/runtime mixing breaks per [`CAPABILITIES.md ## Version compatibility`](CAPABILITIES.md#version-compatibility) |
 
 For non-C consumers (Rust, Go, Python), the link surface is the
@@ -155,7 +160,7 @@ and apply a **minimum-diff modification** to express the user's
 intent.
 
 The universal modify-a-shipped-sample workflow lives in
-[`doca-programming-guide TASKS.md ## modify`](../../doca-programming-guide/TASKS.md#modify).
+`doca-programming-guide TASKS.md ## modify` (`doca-programming-guide/TASKS.md#modify`).
 Use it as-is. The Compress-specific overlay is the
 *modify-from-sample schema fill* — the slots the agent must
 elicit from the user before recommending any code-level edit:
@@ -170,9 +175,7 @@ elicit from the user before recommending any code-level edit:
 
 The agent emits an *intent description + the filled slots*; the
 *actual* unified diff against the sample source is produced by
-the modify-from-sample renderer (deferred to a future round, per
-[`doca-programming-guide TASKS.md ## modify`](../../doca-programming-guide/TASKS.md#modify)).
-Until the renderer ships, the agent must walk the user through
+the user (this bundle has no diff renderer; see `doca-programming-guide TASKS.md ## modify` (`doca-programming-guide/TASKS.md#modify`)). The agent must walk the user through
 the diff line-by-line against the sample source they read on
 disk, and have the user paste back the result for validation.
 
@@ -190,7 +193,7 @@ Steps the agent should walk the user through:
    (opening a NIC without the requested Compress task on its
    accelerator) returns `DOCA_ERROR_NOT_SUPPORTED` at task
    submit, not at open. Re-quote the output of `doca_caps
-   --list-devs` ([`doca-caps`](../../tools/doca-caps/SKILL.md))
+   --list-devs` (`doca-caps/SKILL.md`)
    and confirm the device the binary opens is the same one the
    cap-query ran against.
 2. **Run the round-trip (or decompress-known-fixture) smoke
@@ -202,7 +205,7 @@ Steps the agent should walk the user through:
    bulk-decode before this passes.
 3. **Capture the structured log.** Set `DOCA_LOG_LEVEL=trace`
    for the first run (see
-   [`doca-debug CAPABILITIES.md ## Observability`](../../doca-debug/CAPABILITIES.md#observability)).
+   `doca-debug CAPABILITIES.md ## Observability` (`doca-debug/CAPABILITIES.md#observability`)).
    This is the cheapest way to make the lifecycle and task-submit
    transitions visible on first failure.
 4. **Capture the completion events on the PE.** A run that
@@ -220,7 +223,7 @@ buffer sizing, and permission set were right.
 > **Performance harness routing.** For *throughput / latency
 > measurement* on the configured Compress context (or for cross-library
 > comparison against the other DOCA crypto primitives), route the
-> user to [`doca-bench TASKS.md ## test`](../../tools/doca-bench/TASKS.md#test)
+> user to `doca-bench TASKS.md ## test` (`doca-bench/TASKS.md#test`)
 > — `doca-bench` is the cross-library performance harness with
 > documented warm-up / steady-state / outlier semantics, and it
 > explicitly supports Compress. The iteration loop below stays the
@@ -300,10 +303,12 @@ Eval-loop overlay — why this is a loop, not a one-shot pass:
 
 Loop termination: stop iterating once two consecutive iterations
 have the same task / algorithm mode, cap results, permission map,
-submitted/completed counts, and byte-comparison outcome. That
+the same `DOCA_ERROR_*` at the same call, and the same
+byte-comparison outcome (the submitted/completed counts naturally
+differ between runs and are not part of the identity). That
 unchanged identity means the cause is below DOCA Compress and is
 never success. Escalate to
-[`doca-debug TASKS.md ## debug`](../../doca-debug/TASKS.md#debug)
+`doca-debug TASKS.md ## debug` (`doca-debug/TASKS.md#debug`)
 with the captured cap-query snapshot + round-trip diff as
 evidence.
 
@@ -314,7 +319,7 @@ program produces no completion event), narrow the cause to a
 specific layer and act on it.
 
 The cross-library debug ladder lives in
-[`doca-debug TASKS.md ## debug`](../../doca-debug/TASKS.md#debug).
+`doca-debug TASKS.md ## debug` (`doca-debug/TASKS.md#debug`).
 Walk through it in order — install → version → build → link →
 runtime → program → driver — *before* recommending Compress-specific
 fixes. This skill's overlay names the Compress-specific
@@ -332,7 +337,7 @@ manifestation at layers 5 (runtime) and 6 (program):
   main loop.
 - Confirm both the source mmap and the destination mmap are
   still alive at submit time. Destroying either before
-  `doca_ctx_destroy` is a use-after-free that surfaces as
+  `doca_compress_destroy` is a use-after-free that surfaces as
   `DOCA_ERROR_BAD_STATE` from subsequent calls.
 
 **Layer 6 (program) — Compress overlay.**
@@ -367,16 +372,16 @@ manifestation at layers 5 (runtime) and 6 (program):
 
 Once the layer is identified, route to the matching debug verb
 on the matching skill: install / build / link / driver to
-[`doca-setup ## debug`](../../doca-setup/TASKS.md#debug); version
-to [`doca-version ## debug`](../../doca-version/TASKS.md#debug);
+`doca-setup ## debug` (`doca-setup/TASKS.md#debug`); version
+to `doca-version ## debug` (`doca-version/TASKS.md#debug`);
 cross-cutting runtime to
-[`doca-debug ## debug`](../../doca-debug/TASKS.md#debug);
+`doca-debug ## debug` (`doca-debug/TASKS.md#debug`);
 program-layer Core-context patterns to
-[`doca-programming-guide TASKS.md ## debug`](../../doca-programming-guide/TASKS.md#debug).
+`doca-programming-guide TASKS.md ## debug` (`doca-programming-guide/TASKS.md#debug`).
 
 **5-phase universal debug-loop instantiation (Compress).** Layer
 identification above is phase 1 of the
-[universal debug-loop contract](../../doca-debug/CAPABILITIES.md#universal-debug-loop-contract).
+universal debug-loop contract (`doca-debug/CAPABILITIES.md#universal-debug-loop-contract`).
 The agent MUST walk the remaining four phases on every Compress
 debug answer before declaring done:
 
@@ -411,7 +416,7 @@ mmap regions + in-flight tasks on the progress engine) and the
 agent's failure mode is to leave in-flight tasks dangling on a
 context that is being torn down, returning
 `DOCA_ERROR_BAD_STATE` on the next program run. The
-[universal verification contract](../../doca-setup/CAPABILITIES.md#universal-verification-contract)
+universal verification contract (`doca-setup/CAPABILITIES.md#universal-verification-contract`)
 step 1 (preconditions) requires *"the rollback path is
 documented"* on every change-recommending answer; this is the
 Compress instantiation.
@@ -426,9 +431,10 @@ list. The triple IS the rollback target.
 1. **Drain outstanding tasks FIRST.** Walk
    `doca_pe_progress` until the outstanding-task counter is
    zero. Do NOT submit new tasks after rollback intent is
-   declared. If the drain stalls (counter not decrementing
-   within the bounded debug-loop window), fire the
-   [deploy-loop bridge](../../doca-setup/CAPABILITIES.md#deploy-loop-bridge--step-5-not-green-is-the-debug-loop-trigger)
+   declared. If the drain stalls (the outstanding-task counter has
+   not decreased after 10 seconds of `doca_pe_progress` polling),
+   fire the
+   deploy-loop bridge (`doca-setup/CAPABILITIES.md#deploy-loop-bridge--step-5-not-green-is-the-debug-loop-trigger`)
    on the stalled-drain symptom before continuing the rollback.
 2. **`doca_ctx_stop` on the Compress context.** Returns
    `DOCA_ERROR_BAD_STATE` if step 1 was skipped — that is
@@ -471,22 +477,21 @@ so the agent does not invent guidance:
 
 - **install.** Installing DOCA, choosing packages, post-install
   verification, `pkg-config` wiring — defer to
-  [`doca-setup`](../../doca-setup/SKILL.md) and to the
+  `doca-setup/SKILL.md` and to the
   install-tree layout in
-  [doca-public-knowledge-map ## Layout of an installed DOCA package](../../doca-public-knowledge-map/SKILL.md#layout-of-an-installed-doca-package).
+  doca-public-knowledge-map ## Layout of an installed DOCA package (`doca-public-knowledge-map/SKILL.md#layout-of-an-installed-doca-package`).
   This skill assumes DOCA is already installed.
 - **deploy.** Deploying Compress-using applications at scale
   (compress-before-write storage workers across many hosts,
   decompress-on-read network receivers, Kubernetes operator
-  workflows) — out of scope for Phase 1 and reserved for a
-  future platform skill. For single-host first-run testing, the
+  workflows) — out of scope for this skill. For single-host first-run testing, the
   right verb in this skill is `## run`; do not invent a "deploy"
   workflow.
 - **rollback.** Coordinated rollback of Compress-using
   applications across many hosts — out of scope. For a single
   in-session Compress configuration rollback, the right verb in
   this skill is destroying the context (`doca_ctx_stop` →
-  `doca_ctx_destroy`) and re-running [`## configure`](#configure)
+  `doca_compress_destroy`) and re-running [`## configure`](#configure)
   with corrected parameters.
 - **kernel-level driver install / firmware burn.** Compress
   depends on the underlying ConnectX firmware and BlueField BFB;
@@ -494,7 +499,7 @@ so the agent does not invent guidance:
   (`DOCA_ERROR_DRIVER` from a Compress submit, repeated
   accelerator errors in `dmesg`), the fix is via `mlxconfig` /
   `mlxfwreset` / re-imaging the BFB, all of which belong to
-  [`doca-setup ## debug`](../../doca-setup/TASKS.md#debug) layer
+  `doca-setup ## debug` (`doca-setup/TASKS.md#debug`) layer
   5.
 
 ## Command appendix
@@ -507,13 +512,16 @@ unprivileged user unless noted. Rows that need elevated privileges call that out
 
 **Infra-aware preamble (every row below).** Per the bundle's
 detect → prefer → fall back → report contract documented in
-[`doca-structured-tools-contract ## The agent behavior contract`](../../doca-structured-tools-contract/SKILL.md#the-agent-behavior-contract),
+`doca-structured-tools-contract ## The agent behavior contract` (`doca-structured-tools-contract/SKILL.md#the-agent-behavior-contract`),
 the agent should:
 
-1. Probe for the matching structured helper FIRST (`doca-env --json`
-   for version + devices + libraries + drivers + hugepages in one
-   shot; `doca-capability-snapshot` for per-device capability flags;
-   `version-matrix.json` for *"available since"* lookups).
+1. Check whether your site provides an optional structured helper
+   (for example an env-report script that emits JSON) per
+   `doca-structured-tools-contract`; none ships with public DOCA,
+   so probe it with `command -v <site env-report helper>` if your
+   site has one, and by default use the real commands
+   (`pkg-config --modversion doca-common`, `doca_caps --version`,
+   `cat /opt/mellanox/doca/applications/VERSION`).
 2. If the probe succeeds, the structured tool's output is the
    authoritative answer and the agent SHOULD NOT also run the
    manual command in the row below. Report *"using structured
@@ -521,26 +529,26 @@ the agent should:
 3. If the probe fails, fall back to the manual command in the row.
    Report *"falling back to manual chain"*.
 4. The schemas the structured tools emit are defined in
-   [`doca-structured-tools-contract ## Schemas`](../../doca-structured-tools-contract/SKILL.md#schemas);
+   `doca-structured-tools-contract ## Schemas` (`doca-structured-tools-contract/SKILL.md#schemas`);
    the version-handling semantics (four-way match, NGC,
    headers-win) are owned by
-   [`doca-version`](../../doca-version/SKILL.md).
+   `doca-version/SKILL.md`.
 
 | Command (worked example) | Owning step | Class of question it answers | What healthy output looks like |
 | --- | --- | --- | --- |
-| `pkg-config --modversion doca-compress` | `## configure` step 1; `## build` slot 4 | What is the build-time DOCA Compress version? | A semver string matching `doca_caps --version`. Disagreement = partial install (route to [`doca-version TASKS.md ## debug`](../../doca-version/TASKS.md#debug) layer 2) |
-| `pkg-config --cflags --libs doca-compress` | `## build` | What include + link flags does the linker need? | Trust whatever `pkg-config --cflags --libs` produces on this install. Do not hardcode either the `-I` include path or the `-l<name>` flag form — both can drift between DOCA install profiles and DOCA majors; the on-disk `.so` basenames use underscores on every release where we have ground truth, while the `.pc` package names use hyphens, and `pkg-config` is the only thing that resolves both correctly. Hand-crafted `-l` lines silently break when DOCA upgrades. |
+| `pkg-config --modversion doca-compress` | `## configure` step 1; `## build` slot 4 | What is the build-time DOCA Compress version? | A semver string matching `doca_caps --version`. Disagreement = partial install (route to `doca-version TASKS.md ## debug` (`doca-version/TASKS.md#debug`) layer 2) |
+| `pkg-config --cflags --libs doca-compress` | `## build` | What include + link flags does the linker need? | Trust whatever `pkg-config --cflags --libs` produces on this install. Do not hardcode either the `-I` include path or the `-l<name>` flag form — both can drift between DOCA install profiles and DOCA majors; the on-disk `.so` basenames use underscores, while the `.pc` package names use hyphens, and `pkg-config` is the only thing that resolves both correctly. Hand-crafted `-l` lines silently break when DOCA upgrades. |
 | `doca_caps --list-devs` | `## configure` step 2; `## run` step 1 | Which devices on this host can be used as a `doca_dev` for Compress? | One row per visible device with PCIe address and capability flags; the agent must still run `doca_compress_cap_*` per-device to confirm per-task support |
 | `doca_caps --version` | `## configure` step 1; `## test` step 1 | What is the *runtime* DOCA version on this host? | A semver string matching `pkg-config --modversion doca-compress` |
 | `ls /opt/mellanox/doca/samples/doca_compress/` | `## modify` slot 1 | Which Compress samples ship in this install, and which is the closest starting point? | A list of sample directories named after the task direction they demonstrate (compress, decompress, or both) |
 | `ls /opt/mellanox/doca/applications/` (then locate the File Compression reference app) | `## modify` slot 1 | Is the File Compression reference application present as a fuller worked example? | A directory whose contents include a DEFLATE-based file-compression flow |
 | `cat /opt/mellanox/doca/applications/VERSION` | `## configure` step 1; `## debug` layer 1 | What does the install tree itself claim its version is? | A semver string matching the other two version sources |
 | `printf 'abcabcabcabcabcabc' \| python3 -c 'import sys, zlib; sys.stdout.buffer.write(zlib.compress(sys.stdin.buffer.read()))' \| xxd` | `## test` step 3 | What is the CPU-reference DEFLATE encoding for the round-trip smoke fixture? | A short DEFLATE-encoded byte sequence the agent can compare against the doca-compress compress output, or feed into doca-compress decompress for a decompress-only smoke |
-| `dmesg \| tail -n 40` (sudo) | `## debug` layer 7 | What did the kernel / driver log around the last Compress call? | Empty or recent benign messages. Repeated mlx5 / accelerator errors → driver-layer bug; route to [`doca-setup ## debug`](../../doca-setup/TASKS.md#debug) |
+| `dmesg \| tail -n 40` (sudo) | `## debug` layer 7 | What did the kernel / driver log around the last Compress call? | Empty or recent benign messages. Repeated mlx5 / accelerator errors → driver-layer bug; route to `doca-setup ## debug` (`doca-setup/TASKS.md#debug`) |
 | `DOCA_LOG_LEVEL=trace ./<binary>` | `## run` step 3 | What did the structured DOCA logger emit for the first failing call? | A trace-level line on every lifecycle transition and every task submission. Silence after submission = PE not progressed |
 
 For commands shared across libraries (`pkg-config --modversion`,
 `doca_caps`, `cat /opt/mellanox/doca/applications/VERSION`,
 `DOCA_LOG_LEVEL`) the cross-library overlay is in
-[`doca-debug TASKS.md ## Command appendix`](../../doca-debug/TASKS.md#command-appendix);
+`doca-debug TASKS.md ## Command appendix` (`doca-debug/TASKS.md#command-appendix`);
 this table adds the Compress-specific rows on top.
